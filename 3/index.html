@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 但是一般循环不用of，有的时候编辑器会报错，比如webstorm，一般用in。实际上两者都可以。 -->
+        <!-- 2.5+版本在循环的时候必须加上key，为了dom-diff -->
+        遍历数组
+        <div v-for="(a, index) in arr" :key="index" :a="index">{{a}} {{index}}</div>
+
+        <!-- template无意义标签，它上面不能放key属性 -->
+        无意义标签遍历
+        <template v-for="(a, index) in arr" >
+            <li :key="index + 5" :a="index">{{a}} {{index}}</li>
+        </template>
+
+        <!-- 遍历对象 -->
+        遍历对象
+        <template v-for="(value, key) in {name: 'kk', age: 9}" >
+            <li :key="key" :a="key">{{value}} {{key}}</li>
+        </template>
+
+        <!-- 遍历数字 -->
+        遍历数字
+        <template v-for="(n, index) in 5">
+            <li :key=`${index}_2` :a="index">{{n}} {{index}}</li>
+        </template>
+
+        <!-- 遍历字符串 -->
+        遍历字符串
+        <template v-for="(n, index) in 'string'">
+            <li :key=`${index}_3` :a="index">{{n}} {{index}}</li>
+        </template>
+
+        <br>
+        事件：{{flag}}
+        <button v-on:click="fn">点击</button>
+
+        <div v-once>只渲染一次,缓存：{{flag}}</div>
+
+        <div v-html="element"></div>
+
+        这个等价于下面<input type="text" :value="element" @input="e => {element = e.target.value }">
+        <input type="text" v-model="element" />
+        
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        // 在vue中的指令一般都是用v-开头的
+        // v-for, [], {}, string, 5
+        let vm = new Vue({
+            data: {
+                arr: ['a','b','c'],
+                flag: true,
+                element: '<h1>hello</h1>'
+            },
+            el: "#app",
+            methods: {
+                fn(e) {
+                    // e是原生的事件源
+                    this.flag = !this.flag;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
