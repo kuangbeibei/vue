@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 模板引擎；可以写表达式；不能写js语句 -->
+        {{msg}} {{1+1}} {{ {} }} {{ flag ? 'a' : 'b' }}
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                msg: 'hello',
+                flag: true
+            }
+        });
+        // 1. vm.$el, 指代当前dom元素
+        console.log(vm.$el); 
+        
+        console.log('111', vm.$el.innerHTML); // 可以发现视图并没有更新
+
+        // 2. vm.$nextTick, 在vue中，dom的渲染是异步的
+        vm.$nextTick(() => {
+            console.log('222', vm.$el.innerHTML)
+        })
+        
+        // 3. vm.$watch
+        vm.$watch('msg', function(newVal, oldVal) { // 要先订阅，再改变值，再触发
+            console.log(vm.$el.innerHTML);
+        })
+
+        vm.msg = 'world1';
+        vm.msg = 'world2';
+    </script>
+</body>
+</html>
