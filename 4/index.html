@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.v-model</title>
+</head>
+<body>
+    <div id="app">
+        1. 输入框
+        <!-- v-model就是:value和@input的结合，语法糖 -->
+        <input type="text" v-model="msg">
+        <input type="text" :value="msg" @input="change($event)">
+        {{msg}}
+
+        <br />
+        2. 复选框 单个
+        <input type="checkbox" v-model="check"> {{check}}
+        <br />
+
+        3. 复选框 多个
+        <!-- 需要给value -->
+        <input type="checkbox" v-model="checks" value="爱好1">爱好1 <input type="checkbox" v-model="checks" value="爱好2">爱好2 {{checks}}
+
+        <br />
+        4. 单选框 互斥
+        <!-- 实现radio的分组也是通过radio -->
+        <input type="radio" v-model="gender" value="male">男 <input type="radio" v-model="gender" value="female">女 {{gender}}
+
+        5. select
+        <select v-model="select">
+            <!-- 如果没有在option上面加value指定，那么就是取的title作为值 -->
+            <option v-for="item in options" :key="item.value" :value="item.value">{{item.title}}</option> 
+        </select>
+        {{select}}
+
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                msg: 'hello world',
+                check: true,
+                checks: [],
+                gender: 'female',
+                select: 'English',
+                options: [
+                    {title: '数学', value: 'Math'},
+                    {title: '语文', value: 'Chinese'},
+                    {title: '英语', value: 'English'}
+                ]
+            },
+            methods: {
+                change(e) {
+                    this.msg = e.target.value;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
