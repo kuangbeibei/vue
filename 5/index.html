@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5</title>
+</head>
+<body>
+    <!-- 指令的作用就是操作dom -->
+    <div id="app">
+        <div v-color.a.b.c="'indianred'">{{color}}</div>
+        <div v-click-outside="hide">
+            <input type="text" @click="showContent" v-focus/>
+            <div class="content" v-if="isShow">
+                content
+                <button>点我</button>
+            </div>
+        </div>
+        <div>{{xx | toUpper(3)}}</div>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        Vue.filter('toUpper', function(value, count) {
+            return value.slice(0, count).toUpperCase() + value.slice(count)
+            
+        })
+        Vue.directive('color', function(el, bindings, vnode) {
+            el.style.color = bindings.value;
+        })
+        let vm = new Vue({
+            el: '#app',
+            directives: {
+                focus: {
+                    // bind(el) {
+                    //     Vue.nextTick(() => {
+                    //         el.focus()
+                    //     })
+                    // },
+                    bind(el) {
+                        console.log('bind');
+                    },
+                    // 用insterted改写
+                    inserted(el) { // 当这个元素插入到页面中
+                        console.log('inserted');
+                        el.focus()
+                    },
+                    update(el) {
+                        console.log('指令update');
+                    }
+                },
+                'click-outside'(el, bindings, vnode) {
+                    document.addEventListener('click', e => {
+                        if (el.contains(e.target)) {
+                            console.log('yes');
+                        } else {
+                            vnode.context[bindings.expression]();
+                        }
+                    })
+                }
+            },
+            filters: {
+                toLower(value, count) {
+                    
+                }
+            },
+            data: {
+                color: 'indianred',
+                isShow: false,
+                xx: 'hello'
+            },
+            mounted() {
+                setTimeout(() => {
+                    this.color = 'blue'; // 这个数据更新了，指令也会走update方法
+                }, 3000)
+            },
+            methods: {
+                showContent() {
+                    this.isShow = true;
+                },
+                hide() {
+                    this.isShow = false;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
