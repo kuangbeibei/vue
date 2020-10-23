@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7</title>
+    <style type="text/css">
+        .content {
+            width: 100px;
+            height: 100px;
+            background-color: indianred;
+        }
+        /* 不想用v- 可以给动画加上name */
+        .v-enter { 
+            opacity: 0;
+        }
+        .v-enter-active, .v-leave-active {
+            transition: opacity 1s linear;
+        }
+        /* .v-leave {
+            opacity: 1
+        } */
+        /* .v-leave-active {
+            transition:  opacity 1s linear;;
+        } */
+        .v-leave-to {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="isShow = !isShow">点击</button>
+        <transition>
+            <div class="content" v-show="isShow">
+                content
+            </div>
+        </transition>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                isShow: false
+            }
+        })
+    </script>
+</body>
+</html>
