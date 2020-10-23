@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>component</title>
+</head>
+<body>
+    <div id="app">
+        <my-button :info="info" a="1" b="2" c="3"></my-button>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                info: '我是来自父组件传递的info',
+            },
+            components: {
+                'my-button': {
+                    inheritAttrs: false,
+                    props: ['info'],
+                    data() {
+                        return {
+                            msg: 'my-button',
+                            firstName: 'kuang',
+                            lastName: 'kuang'
+                        }
+                    },
+                    computed: {
+                        computedValue() {
+                            console.log('缓存的数据变了');
+                            return this.firstName + this.lastName
+                        }
+                    },
+                    mounted() {
+                        console.log('son attrs:',this.$attrs);
+                    },
+                    template: `<div>
+                            son
+                            {{computedValue}}
+                            <button>{{msg}}-{{info}}-{{$attrs}}</button>
+                            <my v-bind="$attrs"></my>
+                        </div>`,
+                    components: {
+                        'my': {
+                            props: ['a', 'b', 'c'],
+                            template: `<div>
+                                grandson
+                                <div>{{a}}-{{b}}-{{c}}</div>
+                            </div>`,
+                            mounted() {
+                                console.log('grandson', this.$attrs);
+                            }
+                        },
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

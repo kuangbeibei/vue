@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>component</title>
+</head>
+<body>
+    <div id="app">
+        {{a}}
+        <my-button :info="info"></my-button>
+    </div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('my-button', {
+            props: ['info'],
+            data() {
+                return {
+                    msg: 'my-button',
+                    firstName: 'kuang',
+                    lastName: 'kuang'
+                }
+            },
+            computed: {
+                computedValue() {
+                    console.log('缓存的数据变了');
+                    return this.firstName + this.lastName
+                }
+            },
+            beforeCreate() {
+                console.log('son beforeCreate');
+            },
+            created() {
+                console.log('son created');
+            },
+            beforeMount() {
+                console.log('son beforeMount');
+            },
+            mounted() {
+                console.log('son mounted', this.$el);
+            },
+            beforeUpdate() {
+                console.log('son beforeUpdate');
+            },
+            updated() {
+                console.log('son updated');
+            },
+            beforDestroy() {
+                console.log('son beforeDestroy');
+            },
+            destroyed() {
+                console.log('son destroyed');
+            },
+            template: `<div>
+                    {{computedValue}}
+                    <button>{{msg}}-{{info}}</button>
+                </div>`
+        })
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                info: '我是来自父组件传递的info',
+                a: '嘿嘿'
+            },
+            beforeCreate() {
+                console.log('father beforeCreate');
+            },
+            created() {
+                console.log('father created');
+            },
+            beforeMount() {
+                console.log('father beforeMount');
+            },
+            mounted() {
+                console.log('father mounted', this.$el);
+                this.info = '吼猴';
+            },
+            beforeUpdate() {
+                console.log('father beforeUpdate');
+            },
+            updated() {
+                console.log('father updated');
+            },
+        })
+    </script>
+</body>
+</html>
