@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">{{a}}</div>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                a: 'hello world'
+            },
+            beforeCreate() {
+                console.log('beforeCreate');
+            },
+            created() {
+                console.log('created', this.$el);
+            },
+            beforeMount() {
+                console.log('beforeMount');
+            },
+            mounted() {
+                console.log('mounted', this.$el);
+                // setTimeout(() => {
+                //     this.a = 'hello kk'
+                // }, 1000)
+            },
+            beforeUpdate() {
+                this.a = '100'; // 如果在这里改了，就会是这里的值 
+                console.log('beforeUpdate');
+            },
+            updated() {
+                console.log('updated');
+            },
+            beforeDestroy() {
+                
+            }
+            // render(createElement){
+            //     return createElement('div', {
+            //         attrs: {
+            //             id: 1
+            //         },
+            //         on: {
+            //             click() {
+            //                 alert(1)
+            //             }
+            //         }
+            //     }, 'hello')
+            // },
+
+        })
+    </script>
+</body>
+</html>
